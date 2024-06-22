@@ -1,0 +1,138 @@
+<!-- Modal -->
+<div class="modal" id="modalInteresse">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Cabeçalho do Modal -->
+        <div class="modal-header">
+          <h4 class="modal-title">Registrar Interesse</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <!-- Corpo do Modal -->
+        <div class="modal-body">
+          <form id="frmInteresse">
+            <div class="row">
+              <div class="col-4">
+                <label for="data" class="form-label">Data</label>
+              <input type="date" class="form-control" name="data" readonly> 
+              </div>
+            </div>
+            <br>
+            <h3>Dados do Pet:</h3>
+
+            <div class="mb-3 row">
+              <input type="text" name="idPet" hidden readonly>    
+              <div class="col-md-4 col-sm-12">
+                <label for="nomePet" class="form-label">Nome do Pet</label>
+                <input type="text" class="form-control" name="nomePet" readonly>
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <label for="idade" class="form-label">Idade</label>
+                <input type="text" class="form-control" name="idade" readonly>
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <label for="raca" class="form-label">raca</label>
+                <input type="text" class="form-control" name="raca" readonly>
+              </div>
+            </div>
+            <br>
+            <h3>Dados do Usuario:</h3>
+            <hr>
+            <div class="mb-3 row">
+              <input type="text" name="idUsuario" hidden readonly>    
+              <div class="col-md-4 col-sm-12">
+                <label for="nomeUsuario" class="form-label">Nome</label>
+                <input type="text" class="form-control" name="nomeUsuario" readonly>
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <label for="telefone" class="form-label">Telefone</label>
+                <input type="text" class="form-control" name="telefone" readonly>
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <label for="whatsapp" class="form-label">Whatsapp</label>
+                <input type="text" class="form-control" name="whatsapp" readonly>
+              </div>
+            </div>
+          </form>
+            <br>
+            <p class="fst-normal">
+              Declaro ao confirmar este formulário que é de meu interesse adotar o Pet acima descrito e por isso 
+              <span class="fw-bolder"> concordo em compartilhar </span> os seguintes dados pessoais: 
+              <span class="fw-bolder">Nome, Telefone, WahatsApp </span> 
+              
+            </p>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="checkDeAcordo">
+              <label class="form-check-label" for="flexCheckDefault">
+                Esou ciênte e concordo com o encaminhamento dos meus dados.
+              </label>
+            </div>
+            <hr>
+            <!-- Botão de envio -->
+            <button type="button" class="btn btn-primary" onclick="submeterDados()">Confirmar Interesse</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  <script>
+    // Instanciar um objeto Modal
+    let divInteresse = document.getElementById('modalInteresse')
+    let modalInteresse = new bootstrap.Modal(divInteresse)    
+    let frmInteresse=document.getElementById('frmInteresse')
+    let checkDeAcordo = document.getElementById('checkDeAcordo')
+    async function abrirModalInteresse(id) {
+      // Abrir o modal
+      if ( logado){
+        let url = `${urlServidor}/consultar/pets/${id}`
+      let pet = await axios.get(url)
+      pet = pet.data
+      url = `${urlServidor}/consultar/usuarios`
+      let config = {
+                    headers: {
+                      'Authorization':sessionStorage.getItem('Authorization') // Adiciona o cabeçalho de autorização com o token
+                    }
+                  }
+      let usuario = await axios.get(url, config)
+      usuario = usuario.data
+      carregarInteresseFrm(pet, usuario)
+      modalInteresse.show()
+      } else {
+        window.location.href = "/login";
+      }
+    }
+    function carregarInteresseFrm(pet, usuario){
+      frmInteresse.data.value = new Date().toISOString().split('T')[0]
+      checkDeAcordo.checked=false
+      frmInteresse.idPet.value = pet.id
+      frmInteresse.nomePet.value = pet.nome
+      frmInteresse.idade.value = pet.idade
+      frmInteresse.raca.value = pet.raca
+      frmInteresse.idUsuario.value = usuario.id
+      frmInteresse.nomeUsuario.value = usuario.nome
+      frmInteresse.telefone.value = usuario.telefone
+      frmInteresse.whatsapp.value = usuario.whatsapp
+    }
+    async function submeterDados(){
+      
+      if (checkDeAcordo.checked) {
+          let dados = {petId:frmInteresse.idPet.value, usuarioId:frmInteresse.idUsuario.value}
+          let resp = await axios.post('/interesse', dados)
+          fecharModalInteresse()
+          alert(resp.data.message)
+      } else{
+        alert('Para confirmar seu interesse é necessário que confirme a ciência do compartilhamento de dados.')
+      }
+    }
+  
+    function fecharModalInteresse() {
+      // Fechar o modal
+      modalInteresse.hide();
+    }
+  
+    function postInteresse() {
+      
+      fecharModalInteresse();
+    }
+  </script>

@@ -1,0 +1,92 @@
+<!-- Modal -->
+<div class="modal" id="modalFrmAdicionarPets">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Cabeçalho do Modal -->
+        <div class="modal-header">
+          <h4 class="modal-title">Adicionar Pets</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <!-- Corpo do Modal -->
+        <div class="modal-body">
+          <form id="frmAddPets" method="POST" action="/novo-pet">
+            <hr>
+            <div class="mb-3 row">
+              <div class="col-md-8 col-sm-12">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" class="form-control" name="nome">
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <label for="sexo" class="form-label">Sexo</label>
+                <select type="text" class="form-select" name="sexo">
+                  <option value="M">Macho</option>
+                  <option value="F">Fêmea</option>
+                </select>
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <label for="especie" class="form-label">Especie</label>
+                <select type="text" class="form-select" name="especie">
+                  <option value="cão">Cão</option>
+                  <option value="gato">Gato</option>
+                  <option value="tartaruga">Tartaruga</option>
+                </select>
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <label for="raca" class="form-label">raca</label>
+                <input type="text" class="form-control" name="raca">
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <label for="peso" class="form-label">Peso</label>
+                <input type="text" class="form-control" name="peso">
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <label for="tamanho" class="form-label">Tamanho</label>
+                <input type="text" class="form-control" name="tamanho">
+              </div>
+              <div class="col-md-4 col-sm-6">
+                <label for="idade" class="form-label">Idade</label>
+                <input type="text" class="form-control" name="idade">
+              </div>
+              <div class="col-12">
+                <label for="doenca" class="form-label">Doenca</label>
+                <textarea class="form-control" name="doenca" rows="2"></textarea>
+              </div>
+              <div class="col-12">
+                <label for="obs" class="form-label">Obs.:</label>
+                <textarea class="form-control" name="obs" rows="5"></textarea>
+              </div>
+            </div>
+            
+            <hr>
+            <input type="submit" class="btn btn-primary" value="Salvar Registro">
+           
+          </form>
+            
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  <script>
+    // Instanciar um objeto Modal
+    let divFrmAdicionarPets = document.getElementById('modalFrmAdicionarPets')
+    let modalInteresse = new bootstrap.Modal(divFrmAdicionarPets)    
+    let frmAddPets=document.getElementById('frmAddPets')
+
+    async function abrirModalAddPts() {
+      // Abrir o modal
+      if ( logado){        
+      modalInteresse.show()
+      } else {
+        window.location.href = "/login";
+      }
+    }
+   
+    function fecharModalFrmAdicionarPets() {
+      // Fechar o modal
+      modalInteresse.hide();
+    }
+
+  </script>

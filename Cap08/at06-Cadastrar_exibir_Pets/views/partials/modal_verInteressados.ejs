@@ -1,0 +1,89 @@
+<!-- Modal -->
+<div class="modal" id="modalInteressados">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+  
+        <!-- Cabeçalho do Modal -->
+        <div class="modal-header">
+          <h4 class="modal-title">Interessados no Pet</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>  
+        <!-- Corpo do Modal -->
+        <div class="modal-body">
+          <div class="container mt-5">
+            <hr>
+            <p>Lista de interessados: </p>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Data</th>
+                  <th scope="col">Nome</th>
+                  <th scope="col">Telefone</th>
+                  <th scope="col">WhatsApp</th>
+                  <th scope="col">Ação</th>
+                </tr>
+              </thead>
+              <tbody id="tabelaCorpo">
+                <!-- Linhas serão adicionadas aqui via JavaScript -->
+              </tbody>
+            </table>
+            <hr>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Instanciar um objeto Modal
+    let divInteressados = document.getElementById('modalInteressados')
+    let modalInteressados = new bootstrap.Modal( divInteressados)    
+    let tabelaCorpo = document.getElementById('tabelaCorpo')
+    tabelaCorpo.innerHTML = ''
+
+    async function abrirModalInteressados(id) {
+      // Abrir o modal
+      if (logado){       
+        url = `${urlServidor}/obter/doacoes/${id}`
+      let config = {
+                    headers: {
+                      'Authorization':sessionStorage.getItem('Authorization') // Adiciona o cabeçalho de autorização com o token
+                    }
+                  }
+      let interesse = await axios.get(url, config)
+
+      construirTabela(interesse.data)
+      
+      } else {
+        window.location.href = "/login"
+      }
+    }
+
+    function construirTabela(interesses){
+      if (interesses.length === 0){
+        alert('Ainda não existem interessados para este Pet.')
+        fecharModalInteressados()
+      } else {
+        interesses.forEach(interesse => {
+        const tr = document.createElement('tr')
+        tr.innerHTML = `
+          <td>${interesse.data_interesse}</td>
+          <td>${interesse.usuario.nome}</td>
+          <td>${interesse.usuario.telefone}</td>
+          <td>${interesse.usuario.whatsapp}</td>
+          <td>
+            <button class="btn btn-success" value="${interesse.usuario.id}" onclick="">
+              <i class="bi bi-check"></i>
+            </button>
+          </td>
+        `
+        tabelaCorpo.appendChild(tr)
+        modalInteressados.show()
+      })
+      }
+      
+    }   
+    function fecharModalInteressados() {
+      // Fechar o modal
+      modalInteressados.hide();
+    }
+  </script>

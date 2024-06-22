@@ -1,0 +1,29 @@
+<strong class="display-6 text-center text-roxo  py-5"> Meus Pets 
+    <button onclick="abrirModalAddPts()" class="btn">
+        <img src="img/addIcon.svg" class="text-primary px-2 img-fluid"></img>
+    </button>
+</strong>
+</div>
+<hr>
+<div class="row"> <!-- Linha de conteúdo -->
+                                
+    <% dados.meusPets.forEach((pet)=>{  %>
+    
+        <div class="col-md-4 col-sm-12 mb-3"> <!-- 1º item de conteúdo --> 
+            <div class="card shadow rounded">
+                <img src="img/petDefault.jpg" class="card-img-top img-fluid" alt="...">
+                <div class="card-body">
+                    <h3 class="card-title display-5 fs-2"><strong><%= pet.nome %></strong></h5>
+                    <strong class="card-text text-break fs-4"><%= pet.especie %></strong>
+                    <p class="card-text text-break fs-5"><strong>Idade: </strong><small><%= pet.idade %></small></p>
+                    <p class="card-text fs-5"><strong> Obs: </strong><small><%= pet.obs %></small></p>
+                    <button class="btn btn-success py-3 fs-5" onclick="abrirModalInteressados(this.value)" value="<%= pet.id %>"><strong>Interessados</strong></button>
+                    <button class="btn btn-roxo py-3 fs-5"><strong>Excluir</strong></button>
+                </div>
+            </div>
+        </div> <!--Fim 1º item de conteúdo -->
+
+    <% }) %>
+
+    
+</div> <!-- pets -->

@@ -1,0 +1,46 @@
+
+<div class="row align-items-center">
+    <div class="col-5  ms-5 my-3 ps-5">
+        <label for="nome" class="form-label">Nome</label>
+        <input type="text" id="nome" name="nome" required="required"
+            minlength="4" placeholder="Ex.: João da Silva" autofocus
+            class="form-control" />
+    </div>
+
+    <div class="me-5 col-3">
+        <label for="cpf" class="form-label">CPF</label>
+        <!--Forçar usuario digitar no formato pattern="\d{3}\.\d{3}\.\d{3}-\d{2} somente números [0-9]{11}"-->
+        <input type="text" id="cpf" name="cpf" required="required"
+            pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}" placeholder="Somento Números"
+            class="form-control" onblur="formatarCPF(this)" />
+    </div>
+
+    <!--pattern="pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4}$" min="2012-01-01" max="2014-02-18"-->
+    <div class="my-5 col-4  ms-5 my-3 ps-5">
+        <label class="fom-label" for="telefone">Celular</label>
+        <input type="text" id="telefone" name="telefone" required="required" class="form-control" />
+    </div>
+    <div class="me-5 my-5 col-4">
+        <label class="fom-label" for="whatsapp">Whatsapp</label>
+        <input type="text" id="whatsapp" name="whatsapp" class="form-control" onfocus="copiarTelefone()" />
+    </div>
+    <br><hr><br>
+    <div class="row mx-5 px-5">
+        <div class="mx-5 col-8 px-5">
+            <label class="fom-label" for="email">E-mail</label>
+            <input type="email" id="email" name="email" class="form-control" required="required"/>
+        </div>
+    </div>
+
+    <div class="row mx-5 px-5">
+        <div class="col-4 ms-5 my-3 ps-5">
+            <label class="fom-label" for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" class="form-control" required="required"/>
+        </div>
+        <div class="col-4 me-5 my-3 pe-5">
+            <label class="fom-label" for="confirmacao">Confirmação da senha</label>
+            <input type="password" id="confirmacao" name="confirmacao" class="form-control" required="required"/>
+        </div>
+    </div>
+    
+</div>
